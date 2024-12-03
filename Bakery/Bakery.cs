@@ -35,28 +35,28 @@ namespace RBakery
 
         public List<Ingredient> GetAvailableIngredients() => Ingredients;
 
-        public List<Sanduic> GetAllSandwiches()
+        public List<Sandwich> GetAllSandwiches()
         {
-            List<Sanduic> sandwiches = new List<Sanduic>();
+            List<Sandwich> sandwiches = new List<Sandwich>();
 
             try
             {
-                using (SqlConnection connection = new SqlConnection("Server=your_server_name;Database=BakeryDB;Trusted_Connection=True;"))
+                using (SqlConnection connection = new SqlConnection("Server=localhost;Database=BakeryDB;Trusted_Connection=True;"))
                 {
                     connection.Open();
 
-                    string query = "SELECT Id, Name, BasePrice FROM Sandwich";
+                    string query = "SELECT  Name, BasePrice , BreadType FROM Sandwich where Sold = 0 or Sold is null";
                     SqlCommand command = new SqlCommand(query, connection);
 
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            Sanduic sandwich = new Sanduic
+                            Sandwich sandwich = new Sandwich
                             {
-                                Id = reader.GetInt32(0),        // Id
-                                Name = reader.GetString(1),    // Name
-                                BasePrice = reader.GetDouble(2) // BasePrice
+                                Name = reader.GetString(0),    // Name
+                                BasePrice = reader.GetDouble(1), // BasePrice
+                                BreadType = (BreadType)Enum.Parse(typeof(BreadType), reader.GetString(2))
                             };
                             sandwiches.Add(sandwich);
                         }
@@ -87,22 +87,22 @@ namespace RBakery
 
             try
             {
-                using (SqlConnection connection = new SqlConnection("Server=your_server_name;Database=BakeryDB;Trusted_Connection=True;"))
+                using (SqlConnection connection = new SqlConnection("Server=localhost;Database=BakeryDB;Trusted_Connection=True;"))
                 {
                     connection.Open();
 
-                    string query = "SELECT Id, Name, BasePrice FROM Sandwich";
+                    string query = "SELECT  Name, BasePrice , BreadType FROM Sandwich where Sold = 1";
                     SqlCommand command = new SqlCommand(query, connection);
 
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            Sanduic sandwich = new Sanduic
+                            Sandwich sandwich = new Sandwich
                             {
-                                Id = reader.GetInt32(0),        // Id
-                                Name = reader.GetString(1),    // Name
-                                BasePrice = reader.GetDouble(2) // BasePrice
+                                Name = reader.GetString(0),    // Name
+                                BasePrice = reader.GetDouble(1), // BasePrice
+                                BreadType = (BreadType)Enum.Parse(typeof(BreadType), reader.GetString(2))
                             };
                             revenue = revenue + sandwich.BasePrice;
                         }

@@ -10,11 +10,11 @@ public partial class BakeryForm : Form
     private ListBox sandwichesListBox;
     private Button sellSandwichButton;
     private ComboBox breadTypeComboBox;
-    private Label breadTypeLabel; // Label for Bread Type
+    private Label breadTypeLabel; 
     private CheckBox includeVatCheckBox;
     private Button listSandwichesButton;
     private List<Sandwich> sandwiches = new List<Sandwich>();
-    private string connectionString = @"Server=your_server_name;Database=BakeryDB;Trusted_Connection=True;";
+    private string connectionString = @"Server=localhost;Database=BakeryDB;Trusted_Connection=True;";
 
 
 
@@ -69,7 +69,7 @@ public partial class BakeryForm : Form
         // 
         breadTypeComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
         breadTypeComboBox.Font = new Font("Arial", 12F);
-        breadTypeComboBox.Items.AddRange(new object[] { "White Bread", "Whole Wheat", "Sourdough", "Multigrain" });
+        breadTypeComboBox.Items.AddRange(new object[] { "White", "WholeGrain", "Sourdough" });
         breadTypeComboBox.Location = new Point(20, 60);
         breadTypeComboBox.Name = "breadTypeComboBox";
         breadTypeComboBox.Size = new Size(200, 31);
@@ -94,7 +94,7 @@ public partial class BakeryForm : Form
         includeVatCheckBox.Text = "Include VAT";
         // 
         // listSandwichesButton
-        // 
+       
         listSandwichesButton.BackColor = Color.LightYellow;
         listSandwichesButton.FlatStyle = FlatStyle.Flat;
         listSandwichesButton.Font = new Font("Arial", 12F);
@@ -107,7 +107,7 @@ public partial class BakeryForm : Form
         listSandwichesButton.Click += ListSandwichesButton_Click;
         // 
         // button1
-        // 
+        
         button1.BackColor = Color.LightYellow;
         button1.FlatStyle = FlatStyle.Flat;
         button1.Font = new Font("Arial", 12F);
@@ -115,12 +115,12 @@ public partial class BakeryForm : Form
         button1.Name = "button1";
         button1.Size = new Size(200, 40);
         button1.TabIndex = 7;
-        button1.Text = "TotalRevenue";
+        button1.Text = "Total Revenue";
         button1.UseVisualStyleBackColor = false;
         button1.Click += button1_Click;
         // 
         // BakeryForm
-        // 
+     
         ClientSize = new Size(600, 450);
         Controls.Add(button1);
         Controls.Add(breadTypeLabel);
@@ -138,55 +138,20 @@ public partial class BakeryForm : Form
 
     private void AddSandwichesButton_Click(object sender, EventArgs e)
     {
-        var sandwichForm = new AddSandwichForm(); // Add Sandwich Form (modify to match your design)
+        var sandwichForm = new AddSandwichForm(); 
         sandwichForm.ShowDialog();
     }
 
     private void ListSandwichesButton_Click(object sender, EventArgs e)
     {
         sandwichesListBox.Items.Clear();
-        LoadSampleSandwiches();
-        // Display all sandwiches in the ListBox
+       
+        var sandwiches=    bakery.GetAllSandwiches();
         foreach (var sandwich in sandwiches)
         {
             sandwichesListBox.Items.Add(sandwich);
         }
 
-    }
-
-
-    private void LoadSampleSandwiches()
-    {
-        // Create ingredients
-        var ingredients1 = new List<Ingredient>
-    {
-        new Ingredient("Cucumber", 0.5),
-        new Ingredient("Tomato", 0.15),
-        new Ingredient("Cheddar", 0.2)
-    };
-        var sandwich1 = new Sandwich("Veggie Delight", 5.99, ingredients1);
-
-        var ingredients2 = new List<Ingredient>
-    {
-        new Ingredient("Chicken", 2.0),
-        new Ingredient("Lettuce", 0.3),
-        new Ingredient("Tomato", 0.15),
-        new Ingredient("Cheddar", 0.2)
-    };
-        var sandwich2 = new Sandwich("Chicken Sandwich", 7.99, ingredients2);
-
-        var ingredients3 = new List<Ingredient>
-    {
-        new Ingredient("Turkey", 2.5),
-        new Ingredient("Avocado", 1.0),
-        new Ingredient("Bacon", 1.2)
-    };
-        var sandwich3 = new Sandwich("Turkey Avocado", 8.99, ingredients3);
-
-        // Add sandwiches to the list
-        sandwiches.Add(sandwich1);
-        sandwiches.Add(sandwich2);
-        sandwiches.Add(sandwich3);
     }
 
     private Button button1;

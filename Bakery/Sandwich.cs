@@ -12,13 +12,18 @@ namespace RBakery
         public string Name { get;  set; }
         public double BasePrice { get;  set; }
         public BreadType BreadType { get;  set; }
-        private List<Ingredient> Ingredients { get; set; }
+        public bool Sold { get; set; } = false;
 
-        public Sandwich(string name, double basePrice , List<Ingredient> ingredients)
+        public Sandwich()
+        { 
+        }
+
+        public Sandwich(string name, double basePrice , BreadType breadType)
         {
             Name = name;
             BasePrice = basePrice;
-            Ingredients = ingredients;
+            BreadType = breadType;
+      
         }
 
         public string GetName() => Name;
@@ -26,20 +31,18 @@ namespace RBakery
 
         public void AddIngredient(Ingredient ingredient)
         {
-            Ingredients.Add(ingredient);
+          //  Ingredients.Add(ingredient);
         }
 
         public string GetInfo()
         {
-            var ingredientNames = Ingredients.Count > 0
-                ? string.Join(", ", Ingredients.Select(i => i.GetName()))
-                : "No ingredients added.";
-            return $"{Name} ({BreadType} Bread) - Ingredients: {ingredientNames}";
+          
+            return $"{Name} ({BreadType} Bread)";
         }
 
         public double GetPrice()
         {
-            return BasePrice + Ingredients[0].Price;
+            return BasePrice;
 
         }
 

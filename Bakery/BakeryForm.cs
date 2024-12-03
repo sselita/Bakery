@@ -24,7 +24,7 @@ public partial class BakeryForm : Form
                 {
                     connection.Open();
 
-                    // Update the Sold status to true for the selected sandwich
+              
                     string updateQuery = "UPDATE Sandwich SET Sold = 1 WHERE Name = @Name";
                     using (SqlCommand command = new SqlCommand(updateQuery, connection))
                     {
@@ -42,7 +42,6 @@ public partial class BakeryForm : Form
                     }
                 }
 
-                // Refresh the UI after selling the sandwich
                 UpdateUI();
             }
             catch (Exception ex)
@@ -55,7 +54,11 @@ public partial class BakeryForm : Form
             MessageBox.Show("Please select a sandwich to sell.");
         }
     }
-
+    private void button1_Click(object sender, EventArgs e)
+    {
+        var revenue = bakery.GetSoldSandwiches();
+        MessageBox.Show("Revenue is :" + revenue);
+    }
 
     private void UpdateUI()
     {
@@ -66,9 +69,5 @@ public partial class BakeryForm : Form
     }
 
 
-    private void button1_Click(object sender, EventArgs e)
-    {
-        var revenue =bakery.GetSoldSandwiches();
-        MessageBox.Show("Revenue is" +revenue);
-    }
+
 }

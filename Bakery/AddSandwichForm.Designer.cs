@@ -35,7 +35,7 @@ namespace RBakery
             this.Font = new Font("Segoe UI", 12);
             this.BackColor = Color.White;
 
-            // Sandwich Name TextBox
+        
             var sandwichNameLabel = new Label()
             {
                 Text = "Sandwich Name:",
@@ -56,7 +56,7 @@ namespace RBakery
             this.Controls.Add(sandwichNameTextBox);
 
 
-            // Bread Type ComboBox
+       
             var breadTypeLabel = new Label()
             {
                 Text = "Bread Type:",
@@ -69,14 +69,14 @@ namespace RBakery
             breadTypeComboBox.Top = 130;
             breadTypeComboBox.Left = 10;
             breadTypeComboBox.Width = 400;
-            breadTypeComboBox.Items.AddRange(new string[] { "White Bread", "Whole Wheat", "Sourdough", "Multigrain" });
+            breadTypeComboBox.Items.AddRange(new string[] { "White", "WholeGrain", "Sourdough" });
             breadTypeComboBox.Font = new Font("Segoe UI", 12);
             breadTypeComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
 
             this.Controls.Add(breadTypeLabel);
             this.Controls.Add(breadTypeComboBox);
 
-            // Ingredients Panel (Checkboxes in a FlowLayoutPanel)
+   
             var ingredientsLabel = new Label()
             {
                 Text = "Select Ingredients:",
@@ -100,8 +100,14 @@ namespace RBakery
                 Tuple.Create("Cucumber", 0.5),
                 Tuple.Create("Tomato", 0.15),
                 Tuple.Create("Cheddar", 0.2),
-                Tuple.Create("Lettuce", 0.1),
-                Tuple.Create("Avocado", 0.25)
+                Tuple.Create("Ham", 0.1),
+                Tuple.Create("Chorizo", 0.25),
+                 Tuple.Create("Apple", 0.1),
+                  Tuple.Create("Tuna", 0.2),
+                   Tuple.Create("Smoked Salmon", 0.4),
+                        Tuple.Create("Cream Cheese", 0.15),
+                             Tuple.Create("Gouda Cheese", 0.1),
+
             };
 
             foreach (var ingredient in ingredientItems)
@@ -120,7 +126,7 @@ namespace RBakery
             this.Controls.Add(ingredientsLabel);
             this.Controls.Add(ingredientsPanel);
 
-            // Add Button
+        
             addButton.Text = "Add Sandwich";
             addButton.Font = new Font("Segoe UI", 14, FontStyle.Bold);
             addButton.BackColor = Color.LightGreen;
@@ -148,7 +154,7 @@ namespace RBakery
                 return;
             }
 
-            // Collect selected ingredients
+           
             List<string> selectedIngredients = new List<string>();
             foreach (CheckBox checkbox in ingredientsPanel.Controls)
             {
@@ -169,21 +175,23 @@ namespace RBakery
                 {
                     connection.Open();
 
-                    // Insert Sandwich into Sandwich table
-                    string insertSandwichQuery = "INSERT INTO Sandwich (Name, BasePrice) OUTPUT INSERTED.Id VALUES (@Name, @BasePrice)";
+              
+                    string insertSandwichQuery = "INSERT INTO Sandwich (Name, BasePrice ,BreadType) OUTPUT INSERTED.Id VALUES (@Name, @BasePrice,@BreadType)";
                     SqlCommand sandwichCommand = new SqlCommand(insertSandwichQuery, connection);
 
-                    double basePrice = 5.0; // Example base price for a sandwich
-                    sandwichCommand.Parameters.AddWithValue("@Name", sandwichName);
+                   double basePrice = 5.0; 
+                    sandwichCommand.Parameters.AddWithValue("@Name", sandwichName);           
+                    sandwichCommand.Parameters.AddWithValue("@BreadType", breadType);
                     sandwichCommand.Parameters.AddWithValue("@BasePrice", basePrice);
+                    sandwichCommand.ExecuteNonQuery();
 
-                    int sandwichId = (int)sandwichCommand.ExecuteScalar(); // Get the newly created Sandwich ID
+                    int sandwichId = (int)sandwichCommand.ExecuteScalar(); 
 
-                    // Insert into middle table (Sandwich_Ingredients)
+                    // Insert into middle table
                     foreach (string ingredient in selectedIngredients)
                     {
-                        // Assuming you have an Ingredient table and need its ID
-                        string getIngredientIdQuery = "SELECT Id FROM Ingredients WHERE Name = @Name";
+                       
+                        string getIngredientIdQuery = "SELECT Id FROM Ingridient WHERE Name = @Name";
                         SqlCommand ingredientCommand = new SqlCommand(getIngredientIdQuery, connection);
                         ingredientCommand.Parameters.AddWithValue("@Name", ingredient);
 
@@ -196,7 +204,7 @@ namespace RBakery
                         int ingredientId = (int)ingredientIdObj;
 
                         // Insert into Sandwich_Ingredients table
-                        string insertSandwichIngredientQuery = "INSERT INTO Sandwich_Ingredients (SandwichId, IngredientId) VALUES (@SandwichId, @IngredientId)";
+                        string insertSandwichIngredientQuery = "INSERT INTO SandwichIngredients (SandwichId, IngredientId) VALUES (@SandwichId, @IngredientId)";
                         SqlCommand sandwichIngredientCommand = new SqlCommand(insertSandwichIngredientQuery, connection);
                         sandwichIngredientCommand.Parameters.AddWithValue("@SandwichId", sandwichId);
                         sandwichIngredientCommand.Parameters.AddWithValue("@IngredientId", ingredientId);
@@ -211,8 +219,8 @@ namespace RBakery
             {
                 MessageBox.Show($"An error occurred: {ex.Message}");
             }
-            MessageBox.Show($"Sandwich '{sandwichName}' added with ingredients: {string.Join(", ", selectedIngredients)}");
-            //STIV add to db or list
+           
+          
             this.Close();
         }
 
