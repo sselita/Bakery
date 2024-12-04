@@ -27,7 +27,6 @@ namespace RBakery
         }
 
         public string GetName() => Name;
-        public BreadType GetBreadType() => BreadType;
 
 
         public string GetInfo()

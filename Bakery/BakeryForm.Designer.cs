@@ -60,9 +60,9 @@ public partial class BakeryForm : Form
         sellSandwichButton.BackColor = Color.LightCoral;
         sellSandwichButton.FlatStyle = FlatStyle.Flat;
         sellSandwichButton.Font = new Font("Arial", 12F);
-        sellSandwichButton.Location = new Point(230, 380);
+        sellSandwichButton.Location = new Point(316, 315);
         sellSandwichButton.Name = "sellSandwichButton";
-        sellSandwichButton.Size = new Size(173, 40);
+        sellSandwichButton.Size = new Size(250, 40);
         sellSandwichButton.TabIndex = 5;
         sellSandwichButton.Text = "Sell Sandwich";
         sellSandwichButton.UseVisualStyleBackColor = false;
@@ -81,16 +81,16 @@ public partial class BakeryForm : Form
         // breadTypeLabel
         // 
         breadTypeLabel.Font = new Font("Arial", 12F);
-        breadTypeLabel.Location = new Point(20, 30);
+        breadTypeLabel.Location = new Point(20, 28);
         breadTypeLabel.Name = "breadTypeLabel";
-        breadTypeLabel.Size = new Size(200, 20);
+        breadTypeLabel.Size = new Size(200, 29);
         breadTypeLabel.TabIndex = 0;
         breadTypeLabel.Text = "Bread Type:";
         // 
         // includeVatCheckBox
         // 
         includeVatCheckBox.Font = new Font("Arial", 12F);
-        includeVatCheckBox.Location = new Point(277, 325);
+        includeVatCheckBox.Location = new Point(316, 247);
         includeVatCheckBox.Name = "includeVatCheckBox";
         includeVatCheckBox.Size = new Size(200, 30);
         includeVatCheckBox.TabIndex = 6;
@@ -114,9 +114,9 @@ public partial class BakeryForm : Form
         button1.BackColor = Color.LightYellow;
         button1.FlatStyle = FlatStyle.Flat;
         button1.Font = new Font("Arial", 12F);
-        button1.Location = new Point(438, 380);
+        button1.Location = new Point(316, 380);
         button1.Name = "button1";
-        button1.Size = new Size(150, 40);
+        button1.Size = new Size(250, 40);
         button1.TabIndex = 7;
         button1.Text = "Total Revenue";
         button1.UseVisualStyleBackColor = false;
@@ -128,7 +128,7 @@ public partial class BakeryForm : Form
         listBox1.ItemHeight = 19;
         listBox1.Location = new Point(316, 60);
         listBox1.Name = "listBox1";
-        listBox1.Size = new Size(250, 137);
+        listBox1.Size = new Size(250, 156);
         listBox1.TabIndex = 8;
         // 
         // label1
@@ -147,7 +147,7 @@ public partial class BakeryForm : Form
         button2.Font = new Font("Arial", 12F);
         button2.Location = new Point(20, 380);
         button2.Name = "button2";
-        button2.Size = new Size(181, 40);
+        button2.Size = new Size(200, 40);
         button2.TabIndex = 10;
         button2.Text = "View Ingridients";
         button2.UseVisualStyleBackColor = false;
@@ -155,7 +155,7 @@ public partial class BakeryForm : Form
         // 
         // BakeryForm
         // 
-        ClientSize = new Size(600, 450);
+        ClientSize = new Size(594, 442);
         Controls.Add(button2);
         Controls.Add(label1);
         Controls.Add(listBox1);
