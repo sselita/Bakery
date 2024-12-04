@@ -1,13 +1,17 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RBakery;
+
 
 
 namespace RBakery
 {
+  
     public class Bakery
     {
         public string Name { get; private set; }
@@ -21,19 +25,44 @@ namespace RBakery
             VATPercentage = vatPercentage;
         }
 
-        public string GetName() => Name;
 
-        public void AddSandwich(Sandwich sandwich)
+        public List<Ingredient> GetIngridientBySandwichId(int id)
         {
-            Sandwiches.Add(sandwich);
-        }
 
-        public void AddIngredient(Ingredient ingredient)
-        {
-            Ingredients.Add(ingredient);
-        }
+            List<Ingredient> list = new List<Ingredient>();
 
-        public List<Ingredient> GetAvailableIngredients() => Ingredients;
+            try
+            {
+                using (SqlConnection connection = new SqlConnection("Server=localhost;Database=BakeryDB;Trusted_Connection=True;"))
+                {
+                    connection.Open();
+
+                    string queryIng = "SELECT b.Name,b.Price FROM Sandwich JOIN SandwichIngredients c ON @id = c.SandwichId JOIN Ingridient b ON b.Id = c.IngredientId where Sandwich.Id = @Id;";
+                    SqlCommand commanding = new SqlCommand(queryIng, connection);
+                    commanding.Parameters.AddWithValue("Id", id);
+
+                    using (SqlDataReader reader = commanding.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Ingredient ingredient = new Ingredient
+                            {
+                                Name = reader.GetString(0),
+                                Price = reader.GetDouble(1),
+                            };
+                            list.Add(ingredient);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
+
+            return list;
+        }
+     
 
         public List<Sandwich> GetAllSandwiches()
         {
@@ -80,18 +109,41 @@ namespace RBakery
             double priceWithVAT = sandwich.GetPrice() * (1 + VATPercentage / 100);
             return $"Sold '{sandwichName}' for ${priceWithVAT:F2} (VAT included).";
         }
-        public double GetSoldSandwiches()
-        {
-        
+        public double GetRevenue()
+        {     
             double revenue = 0;
 
+            try
+            {           
+                var sandwiches = GetSoldSandwichess();
+                foreach (var sand in sandwiches)
+                {
+                    revenue += sand.BasePrice;
+                    var id = sand.Id;
+                    var ingridients = GetIngridientBySandwichId(id);
+
+                    foreach (var ingridient in ingridients)
+                    {
+                        revenue += ingridient.Price;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }         
+            return revenue;
+        }
+        public List<Sandwich> GetSoldSandwichess()
+        {
+            List<Sandwich> list = new List<Sandwich> ();
             try
             {
                 using (SqlConnection connection = new SqlConnection("Server=localhost;Database=BakeryDB;Trusted_Connection=True;"))
                 {
                     connection.Open();
 
-                    string query = "SELECT  Name, BasePrice , BreadType FROM Sandwich where Sold = 1";
+                    string query = "SELECT  Name, BasePrice , BreadType , Id FROM Sandwich where Sold = 1";
                     SqlCommand command = new SqlCommand(query, connection);
 
                     using (SqlDataReader reader = command.ExecuteReader())
@@ -102,9 +154,10 @@ namespace RBakery
                             {
                                 Name = reader.GetString(0),    // Name
                                 BasePrice = reader.GetDouble(1), // BasePrice
-                                BreadType = (BreadType)Enum.Parse(typeof(BreadType), reader.GetString(2))
+                                BreadType = (BreadType)Enum.Parse(typeof(BreadType), reader.GetString(2)),
+                                Id = reader.GetInt32(3)
                             };
-                            revenue = revenue + sandwich.BasePrice;
+                            list.Add(sandwich);
                         }
                     }
                 }
@@ -113,8 +166,10 @@ namespace RBakery
             {
                 Console.WriteLine($"An error occurred: {ex.Message}");
             }
-
-            return revenue;
+         
+            return list;
         }
+
     }
-}
+   
+    }

@@ -69,7 +69,7 @@ namespace RBakery
             breadTypeComboBox.Top = 130;
             breadTypeComboBox.Left = 10;
             breadTypeComboBox.Width = 400;
-            breadTypeComboBox.Items.AddRange(new string[] { "White", "WholeGrain", "Sourdough" });
+            breadTypeComboBox.Items.AddRange(new string[] { "Ciabatta", "Focaccia", "Sour_dough","Rye","Whole_wheat" });
             breadTypeComboBox.Font = new Font("Segoe UI", 12);
             breadTypeComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
 
@@ -102,11 +102,11 @@ namespace RBakery
                 Tuple.Create("Cheddar", 0.2),
                 Tuple.Create("Ham", 0.1),
                 Tuple.Create("Chorizo", 0.25),
-                 Tuple.Create("Apple", 0.1),
-                  Tuple.Create("Tuna", 0.2),
-                   Tuple.Create("Smoked Salmon", 0.4),
-                        Tuple.Create("Cream Cheese", 0.15),
-                             Tuple.Create("Gouda Cheese", 0.1),
+                Tuple.Create("Apple", 0.1),
+                Tuple.Create("Tuna", 0.2),
+                Tuple.Create("Smoked Salmon", 0.4),
+                Tuple.Create("Cream Cheese", 0.15),
+                Tuple.Create("Gouda Cheese", 0.1),
 
             };
 
@@ -179,11 +179,11 @@ namespace RBakery
                     string insertSandwichQuery = "INSERT INTO Sandwich (Name, BasePrice ,BreadType) OUTPUT INSERTED.Id VALUES (@Name, @BasePrice,@BreadType)";
                     SqlCommand sandwichCommand = new SqlCommand(insertSandwichQuery, connection);
 
-                   double basePrice = 5.0; 
+                   double basePrice = 2.0; 
                     sandwichCommand.Parameters.AddWithValue("@Name", sandwichName);           
                     sandwichCommand.Parameters.AddWithValue("@BreadType", breadType);
                     sandwichCommand.Parameters.AddWithValue("@BasePrice", basePrice);
-                    sandwichCommand.ExecuteNonQuery();
+           //         sandwichCommand.ExecuteNonQuery();
 
                     int sandwichId = (int)sandwichCommand.ExecuteScalar(); 
 
@@ -222,7 +222,9 @@ namespace RBakery
            
           
             this.Close();
+         
         }
+   
 
     }
 }

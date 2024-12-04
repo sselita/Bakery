@@ -69,7 +69,7 @@ public partial class BakeryForm : Form
         // 
         breadTypeComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
         breadTypeComboBox.Font = new Font("Arial", 12F);
-        breadTypeComboBox.Items.AddRange(new object[] { "White", "WholeGrain", "Sourdough" });
+        breadTypeComboBox.Items.AddRange(new object[] { "Ciabatta", "Focaccia", "Sour_dough", "Rye", "Whole_wheat" });
         breadTypeComboBox.Location = new Point(20, 60);
         breadTypeComboBox.Name = "breadTypeComboBox";
         breadTypeComboBox.Size = new Size(200, 31);
@@ -140,17 +140,18 @@ public partial class BakeryForm : Form
     {
         var sandwichForm = new AddSandwichForm(); 
         sandwichForm.ShowDialog();
+        UpdateUI();
     }
 
     private void ListSandwichesButton_Click(object sender, EventArgs e)
     {
-        sandwichesListBox.Items.Clear();
+         //Update UI ka metoden qe liston sanduicat keshtu qe nuk na duhet butoni
        
-        var sandwiches=    bakery.GetAllSandwiches();
-        foreach (var sandwich in sandwiches)
-        {
-            sandwichesListBox.Items.Add(sandwich);
-        }
+        //var sandwiches=    bakery.GetAllSandwiches();
+        //foreach (var sandwich in sandwiches)
+        //{
+        //    sandwichesListBox.Items.Add(sandwich);
+        //}
 
     }
 

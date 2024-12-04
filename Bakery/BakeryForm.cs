@@ -56,16 +56,14 @@ public partial class BakeryForm : Form
     }
     private void button1_Click(object sender, EventArgs e)
     {
-        var revenue = bakery.GetSoldSandwiches();
+        var revenue = bakery.GetRevenue();
         MessageBox.Show("Revenue is :" + revenue);
     }
 
     private void UpdateUI()
     {
-
-
-        //sandwichesListBox.DataSource = null;
-        //sandwichesListBox.DataSource = bakery.GetAllSandwiches();
+        sandwichesListBox.DataSource = null;
+        sandwichesListBox.DataSource = bakery.GetAllSandwiches();
     }
 
 

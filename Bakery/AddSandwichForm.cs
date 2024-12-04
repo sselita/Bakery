@@ -7,12 +7,9 @@ namespace RBakery
 {
     public partial class AddSandwichForm : Form
     {
-
-
         public AddSandwichForm()
         {
             InitializeComponent();
-        }
-           
+        }          
     }
 }

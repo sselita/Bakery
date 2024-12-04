@@ -29,10 +29,6 @@ namespace RBakery
         public string GetName() => Name;
         public BreadType GetBreadType() => BreadType;
 
-        public void AddIngredient(Ingredient ingredient)
-        {
-          //  Ingredients.Add(ingredient);
-        }
 
         public string GetInfo()
         {

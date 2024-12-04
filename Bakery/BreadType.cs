@@ -8,8 +8,10 @@ namespace RBakery
 {
     public enum BreadType
 {
-    White,
-    WholeGrain,
-    Sourdough
+    Ciabatta ,
+    Focaccia,
+    Sour_dough,
+    Rye,
+    Whole_wheat
 }
 }
