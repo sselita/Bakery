@@ -74,7 +74,7 @@ namespace RBakery
                 {
                     connection.Open();
 
-                    string query = "SELECT  Name, BasePrice , BreadType FROM Sandwich where Sold = 0 or Sold is null";
+                    string query = "SELECT  Name, BasePrice , BreadType , Id FROM Sandwich where Sold = 0 or Sold is null";
                     SqlCommand command = new SqlCommand(query, connection);
 
                     using (SqlDataReader reader = command.ExecuteReader())
@@ -85,7 +85,9 @@ namespace RBakery
                             {
                                 Name = reader.GetString(0),    // Name
                                 BasePrice = reader.GetDouble(1), // BasePrice
-                                BreadType = (BreadType)Enum.Parse(typeof(BreadType), reader.GetString(2))
+                                BreadType = (BreadType)Enum.Parse(typeof(BreadType), reader.GetString(2)),
+                                Id = reader.GetInt32(3)
+
                             };
                             sandwiches.Add(sandwich);
                         }

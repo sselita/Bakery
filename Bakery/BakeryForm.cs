@@ -13,7 +13,23 @@ public partial class BakeryForm : Form
         bakery = new Bakery("R Bakery", 9);
         UpdateUI();
     }
+    public void GetIngridients(object sender, EventArgs e)
+    {
+        List<Ingredient> ingredients = new List<Ingredient>();
+        if (sandwichesListBox.SelectedItem is Sandwich selectedSandwich)
+        {
+            var id = selectedSandwich.Id;
 
+            ingredients = bakery.GetIngridientBySandwichId(id);
+
+        }
+        foreach ( var ingredient in ingredients)
+        {
+          
+                listBox1.Items.Add(ingredient);
+
+        }
+    }
     private void SellSandwichButton_Click(object sender, EventArgs e)
     {
         if (sandwichesListBox.SelectedItem is Sandwich selectedSandwich)
@@ -24,7 +40,7 @@ public partial class BakeryForm : Form
                 {
                     connection.Open();
 
-              
+
                     string updateQuery = "UPDATE Sandwich SET Sold = 1 WHERE Name = @Name";
                     using (SqlCommand command = new SqlCommand(updateQuery, connection))
                     {
@@ -41,8 +57,9 @@ public partial class BakeryForm : Form
                         }
                     }
                 }
-
+                listBox1.Items.Clear();
                 UpdateUI();
+              
             }
             catch (Exception ex)
             {
@@ -53,6 +70,7 @@ public partial class BakeryForm : Form
         {
             MessageBox.Show("Please select a sandwich to sell.");
         }
+        UpdateUI();
     }
     private void button1_Click(object sender, EventArgs e)
     {
@@ -63,9 +81,9 @@ public partial class BakeryForm : Form
     private void UpdateUI()
     {
         sandwichesListBox.DataSource = null;
+        
         sandwichesListBox.DataSource = bakery.GetAllSandwiches();
     }
 
-
-
+    
 }
